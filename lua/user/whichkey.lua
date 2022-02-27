@@ -88,15 +88,13 @@ local mappings = {
   ["s"] = { "<cmd>w!<CR>", "Save" },
   ["q"] = { "<cmd>q!<CR>", "Quit" },
   ["w"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
-  ["r"] = { "<cmd>Telescope oldfiles <CR>", "Recent Files" }, 
   ["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
-  ["f"] = {
-    "<cmd>lua require('telescope.builtin').find_files()<cr>",
-    "Find files",
-  },
-  ["F"] = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },
   ["p"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
-
+  f = {
+    name = "Find",
+    f = { "<cmd>Telescope current_buffer_fuzzy_find theme=ivy<cr>", "Find Text in File" },
+    F = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text in Project"}
+  },
   P = {
     name = "Packer",
     c = { "<cmd>PackerCompile<cr>", "Compile" },
@@ -170,6 +168,7 @@ local mappings = {
     name = "Search",
     b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
     c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
+    f = { "<cmd>lua require('telescope.builtin').find_files()<cr>", "Open File" },
     h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
     M = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
     r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
