@@ -7,6 +7,13 @@ local actions = require "telescope.actions"
 
 telescope.setup {
   defaults = {
+  
+    sorting_strategy = "ascending",
+    layout_config = { 
+      prompt_position = "top",
+      height = 0.3,
+      width = 0.4
+    },
 
     prompt_prefix = " ",
     selection_caret = " ",

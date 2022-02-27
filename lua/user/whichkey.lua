@@ -85,12 +85,13 @@ local mappings = {
     "Buffers",
   },
   ["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
-  ["w"] = { "<cmd>w!<CR>", "Save" },
+  ["s"] = { "<cmd>w!<CR>", "Save" },
   ["q"] = { "<cmd>q!<CR>", "Quit" },
-  ["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
+  ["w"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
+  ["r"] = { "<cmd>Telescope oldfiles <CR>", "Recent Files" }, 
   ["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
   ["f"] = {
-    "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
+    "<cmd>lua require('telescope.builtin').find_files()<cr>",
     "Find files",
   },
   ["F"] = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },
@@ -128,6 +129,12 @@ local mappings = {
     },
   },
 
+  j = {
+    name = "Jump",
+    w = { "<cmd>lua require'hop'.hint_words()<cr>", "Jump Word" },
+    l = { "<cmd>lua require'hop'.hint_lines()<cr>", "Jump Line" }
+  },
+
   l = {
     name = "LSP",
     a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
@@ -159,7 +166,7 @@ local mappings = {
       "Workspace Symbols",
     },
   },
-  s = {
+  o = {
     name = "Search",
     b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
     c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
