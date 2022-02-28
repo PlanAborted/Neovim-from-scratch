@@ -83,6 +83,7 @@ return packer.startup(function(use)
 
   -- Telescope
   use "nvim-telescope/telescope.nvim"
+  use "nvim-telescope/telescope-fzy-native.nvim"
 
   -- Treesitter
   use {
@@ -93,12 +94,12 @@ return packer.startup(function(use)
 
   -- Git
   use "lewis6991/gitsigns.nvim"
-  
+
   -- Nightfox
   use 'EdenEast/nightfox.nvim'
-  
+
   -- Hop
-  use "phaazon/hop.nvim" 
+  use "phaazon/hop.nvim"
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

@@ -36,8 +36,10 @@ keymap("n", "<S-l>", ":bnext<CR>", opts)
 keymap("n", "<S-h>", ":bprevious<CR>", opts)
 
 -- Move text up and down
-keymap("n", "<A-j>", "<Esc>:m .+1<CR>==gi", opts)
-keymap("n", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
+keymap("i", "<A-j>", "<Esc>:m .+1<CR>==gi", opts)
+keymap("i", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
+keymap("n", "<A-j>", ":m .+1<CR>==", opts)
+keymap("n", "<A-k>", ":m .-2<CR>==", opts)
 
 -- Insert --
 -- Press jk fast to enter
@@ -66,4 +68,3 @@ keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 -- keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
 -- keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 -- keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
-
