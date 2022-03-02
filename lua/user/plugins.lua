@@ -80,6 +80,7 @@ return packer.startup(function(use)
 	use("williamboman/nvim-lsp-installer") -- simple to use language server installer
 	use("tamago324/nlsp-settings.nvim") -- language server settings defined in json for
 	use("jose-elias-alvarez/null-ls.nvim") -- for formatters and linters
+	use("jose-elias-alvarez/nvim-lsp-ts-utils") -- for formatters and linters
 
 	-- Telescope
 	use("nvim-telescope/telescope.nvim")
@@ -95,6 +96,7 @@ return packer.startup(function(use)
 	-- Git
 	use("lewis6991/gitsigns.nvim")
 	use("tpope/vim-fugitive")
+  use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
 
 	-- Nightfox
 	use("EdenEast/nightfox.nvim")

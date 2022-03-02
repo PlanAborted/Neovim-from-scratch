@@ -87,6 +87,7 @@ local mappings = {
 	["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
 	["s"] = { "<cmd>w!<CR>", "Save" },
 	["q"] = { "<cmd>q!<CR>", "Quit" },
+	["Q"] = { "<cmd>tabclose<CR>", "Close tab" },
 	["w"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
 	["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
 	["p"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
@@ -106,7 +107,8 @@ local mappings = {
 
 	g = {
 		name = "Git",
-		g = { "<cmd>G<CR>", "Git status" },
+		g = { "<cmd>DiffviewOpen<CR>", "Git status" },
+		h = { "<cmd>DiffviewFileHistory<CR>", "Git file history" },
 		j = { "<cmd>lua require 'gitsigns'.next_hunk()<cr>", "Next Hunk" },
 		k = { "<cmd>lua require 'gitsigns'.prev_hunk()<cr>", "Prev Hunk" },
 		l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
@@ -135,9 +137,9 @@ local mappings = {
 
 	l = {
 		name = "LSP",
-		a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
+		a = { "<cmd>Telescope lsp_code_actions<cr>", "Code Actions" },
 		d = {
-			"<cmd>Telescope lsp_document_diagnostics<cr>",
+			"<cmd>Telescope diagnostics<cr>",
 			"Document Diagnostics",
 		},
 		w = {
