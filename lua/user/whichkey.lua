@@ -111,7 +111,8 @@ local mappings = {
 		h = { "<cmd>DiffviewFileHistory<CR>", "Git file history" },
 		j = { "<cmd>lua require 'gitsigns'.next_hunk()<cr>", "Next Hunk" },
 		k = { "<cmd>lua require 'gitsigns'.prev_hunk()<cr>", "Prev Hunk" },
-		l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
+		B = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
+		l = { "<cmd>lua _GITLOG_TOGGLE()<cr>", "Git Log" },
 		p = { "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", "Preview Hunk" },
 		r = { "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", "Reset Hunk" },
 		R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
@@ -133,6 +134,7 @@ local mappings = {
 		name = "Jump",
 		w = { "<cmd>lua require'hop'.hint_words()<cr>", "Jump Word" },
 		l = { "<cmd>lua require'hop'.hint_lines()<cr>", "Jump Line" },
+		r = { "<cmd>Telescope lsp_references<cr>", "Jump to reference" },
 	},
 
 	l = {
