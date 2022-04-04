@@ -62,6 +62,10 @@ keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
 keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
+-- Smart Cursor --
+keymap("n", "o", 'o<cmd>lua require("smart-cursor").indent_cursor()<cr>', { silent = true, noremap = true })
+keymap("n", "O", 'O<cmd>lua require("smart-cursor").indent_cursor()<cr>', { silent = true, noremap = true })
+
 -- Terminal --
 -- Better terminal navigation
 -- keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)

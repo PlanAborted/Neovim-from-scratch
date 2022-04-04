@@ -31,6 +31,7 @@ end
 
 -- Have packer use a popup window
 packer.init({
+	max_jobs = 5,
 	display = {
 		open_fn = function()
 			return require("packer.util").float({ border = "rounded" })
@@ -59,6 +60,7 @@ return packer.startup(function(use)
 	use("antoinemadec/FixCursorHold.nvim") -- This is needed to fix lsp doc highlight
 	use("folke/which-key.nvim")
 	use("nathom/filetype.nvim")
+	use("winston0410/smart-cursor.nvim")
 
 	-- Colorschemes
 	-- use "lunarvim/colorschemes" -- A bunch of colorschemes you can try out
@@ -104,6 +106,9 @@ return packer.startup(function(use)
 
 	-- Hop
 	use("phaazon/hop.nvim")
+
+	-- Shade (dim inactive split)
+	use("sunjon/shade.nvim")
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
