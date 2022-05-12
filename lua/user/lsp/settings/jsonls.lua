@@ -47,6 +47,7 @@ local schemas = {
 		fileMatch = {
 			".eslintrc.json",
 			".eslintrc",
+			"package.json",
 		},
 		url = "https://json.schemastore.org/eslintrc.json",
 	},
@@ -61,6 +62,7 @@ local schemas = {
 			".prettierrc",
 			".prettierrc.json",
 			"prettier.config.json",
+			"package.json",
 		},
 		url = "https://json.schemastore.org/prettierrc",
 	},
@@ -193,6 +195,9 @@ end
 local extended_schemas = extend(schemas, default_schemas)
 
 local opts = {
+	init_options = {
+		provideFormatter = false,
+	},
 	settings = {
 		json = {
 			schemas = extended_schemas,

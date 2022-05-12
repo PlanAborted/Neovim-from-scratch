@@ -49,10 +49,10 @@ return packer.startup(function(use)
 	use("numToStr/Comment.nvim") -- Easily comment stuff
 	use("kyazdani42/nvim-web-devicons")
 	use("kyazdani42/nvim-tree.lua")
-	use("akinsho/bufferline.nvim")
+	use({ "akinsho/bufferline.nvim", branch = "main" })
 	use("moll/vim-bbye")
 	use("nvim-lualine/lualine.nvim")
-	use("akinsho/toggleterm.nvim")
+	use({ "akinsho/toggleterm.nvim", branch = "main" })
 	use("ahmedkhalf/project.nvim")
 	use("lewis6991/impatient.nvim")
 	use("lukas-reineke/indent-blankline.nvim")
@@ -65,6 +65,8 @@ return packer.startup(function(use)
 	-- Colorschemes
 	-- use "lunarvim/colorschemes" -- A bunch of colorschemes you can try out
 	use("lunarvim/darkplus.nvim")
+	use("sainnhe/sonokai")
+	use("folke/tokyonight.nvim")
 
 	-- cmp plugins
 	use("hrsh7th/nvim-cmp") -- The completion plugin
@@ -87,7 +89,8 @@ return packer.startup(function(use)
 
 	-- Telescope
 	use("nvim-telescope/telescope.nvim")
-	use("nvim-telescope/telescope-fzy-native.nvim")
+	use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
+	use({ "nvim-telescope/telescope-ui-select.nvim" })
 
 	-- Treesitter
 	use({
@@ -102,13 +105,22 @@ return packer.startup(function(use)
 	use({ "sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim" })
 
 	-- Nightfox
-	use("EdenEast/nightfox.nvim")
+	use({ "EdenEast/nightfox.nvim", tag = "v1.0.0" })
 
 	-- Hop
 	use("phaazon/hop.nvim")
 
-	-- Shade (dim inactive split)
-	use("sunjon/shade.nvim")
+	-- Smoothie
+	use("psliwka/vim-smoothie")
+
+	-- AutoSession
+	use("rmagatti/auto-session")
+
+	-- Nvim Spectre (Search and Replace)
+	use("windwp/nvim-spectre")
+
+	-- Nvim Notify
+	use("rcarriga/nvim-notify")
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins

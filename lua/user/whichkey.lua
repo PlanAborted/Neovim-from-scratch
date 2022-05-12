@@ -79,7 +79,7 @@ local opts = {
 }
 
 local mappings = {
-	["a"] = { "<cmd>Alpha<cr>", "Alpha" },
+	-- ["a"] = { "<cmd>Alpha<cr>", "Alpha" },
 	["b"] = {
 		"<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false})<cr>",
 		"Buffers",
@@ -90,7 +90,7 @@ local mappings = {
 	["Q"] = { "<cmd>tabclose<CR>", "Close tab" },
 	["w"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
 	["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
-	["p"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
+	-- ["p"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
 	f = {
 		name = "Find",
 		f = { "<cmd>Telescope current_buffer_fuzzy_find theme=ivy<cr>", "Find Text in File" },
@@ -107,7 +107,8 @@ local mappings = {
 
 	g = {
 		name = "Git",
-		g = { "<cmd>DiffviewOpen<CR>", "Git status" },
+		-- g = { "<cmd>DiffviewOpen<CR>", "Git status" },
+		g = { "<cmd>lua _LAZYGIT_TOGGLE()<cr>", "LazyGit" },
 		h = { "<cmd>DiffviewFileHistory<CR>", "Git file history" },
 		j = { "<cmd>lua require 'gitsigns'.next_hunk()<cr>", "Next Hunk" },
 		k = { "<cmd>lua require 'gitsigns'.prev_hunk()<cr>", "Prev Hunk" },
@@ -132,14 +133,15 @@ local mappings = {
 
 	j = {
 		name = "Jump",
-		w = { "<cmd>lua require'hop'.hint_words()<cr>", "Jump Word" },
-		l = { "<cmd>lua require'hop'.hint_lines()<cr>", "Jump Line" },
-		r = { "<cmd>Telescope lsp_references<cr>", "Jump to reference" },
+		b = { "<cmd>BufferLinePick<cr>", "Jump to Buffer" },
+		l = { "<cmd>lua require'hop'.hint_lines()<cr>", "Jump to Line" },
+		r = { "<cmd>Telescope lsp_references<cr>", "Jump to References" },
+		w = { "<cmd>lua require'hop'.hint_words()<cr>", "Jump to Word" },
 	},
 
 	l = {
 		name = "LSP",
-		a = { "<cmd>Telescope lsp_code_actions<cr>", "Code Actions" },
+		a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Actions" },
 		d = {
 			"<cmd>Telescope diagnostics<cr>",
 			"Document Diagnostics",
@@ -152,15 +154,15 @@ local mappings = {
 		i = { "<cmd>LspInfo<cr>", "Info" },
 		I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
 		j = {
-			"<cmd>lua vim.lsp.diagnostic.goto_next()<CR>",
+			"<cmd>lua vim.diagnostic.goto_next()<CR>",
 			"Next Diagnostic",
 		},
 		k = {
-			"<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>",
+			"<cmd>lua vim.diagnostic.goto_prev()<cr>",
 			"Prev Diagnostic",
 		},
 		l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
-		q = { "<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>", "Quickfix" },
+		q = { "<cmd>lua vim.diagnostic.setloclist()<cr>", "Quickfix" },
 		r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
 		s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
 		S = {
@@ -172,7 +174,7 @@ local mappings = {
 		name = "Search",
 		b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
 		c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
-		f = { "<cmd>lua require('telescope.builtin').find_files()<cr>", "Open File" },
+		f = { "<cmd>Telescope git_files<cr>", "Open File" },
 		h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
 		M = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
 		r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
@@ -181,12 +183,20 @@ local mappings = {
 		C = { "<cmd>Telescope commands<cr>", "Commands" },
 	},
 
+	p = {
+		name = "PNPM (custom)",
+		b = { "<cmd>lua _PNPM_BUILD_TOGGLE()<cr>", "Build current package" },
+		t = { "<cmd>lua _PNPM_TEST_TOGGLE()<cr>", "Test current package" },
+		p = { "<cmd>lua _PNPM_PLUGINS_PACKAGE_TOGGLE()<cr>", "Package Plugins from Root" },
+		w = { "<cmd>lua _PNPM_WATCH_TOGGLE()<cr>", "Watch current package" },
+		d = { "<cmd>lua _DC_DOWN()<cr>", "Docker-compose down" },
+		u = { "<cmd>lua _DC_UP()<cr>", "Docker-compose up" },
+	},
+
 	t = {
 		name = "Terminal",
 		n = { "<cmd>lua _NODE_TOGGLE()<cr>", "Node" },
-		u = { "<cmd>lua _NCDU_TOGGLE()<cr>", "NCDU" },
-		t = { "<cmd>lua _HTOP_TOGGLE()<cr>", "Htop" },
-		p = { "<cmd>lua _PYTHON_TOGGLE()<cr>", "Python" },
+		g = { "<cmd>lua _LAZYGIT_TOGGLE()<cr>", "LazyGit" },
 		f = { "<cmd>ToggleTerm direction=float<cr>", "Float" },
 		h = { "<cmd>ToggleTerm size=10 direction=horizontal<cr>", "Horizontal" },
 		v = { "<cmd>ToggleTerm size=80 direction=vertical<cr>", "Vertical" },
