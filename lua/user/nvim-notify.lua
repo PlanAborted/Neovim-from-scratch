@@ -3,4 +3,6 @@ if not status_ok then
 	return
 end
 
-notify.setup()
+notify.setup({
+	fps = 60,
+})

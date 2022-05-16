@@ -86,6 +86,7 @@ return packer.startup(function(use)
 	use("tamago324/nlsp-settings.nvim") -- language server settings defined in json for
 	use("jose-elias-alvarez/null-ls.nvim") -- for formatters and linters
 	use("jose-elias-alvarez/nvim-lsp-ts-utils") -- for formatters and linters
+	use("ray-x/lsp_signature.nvim")
 
 	-- Telescope
 	use("nvim-telescope/telescope.nvim")
@@ -121,6 +122,9 @@ return packer.startup(function(use)
 
 	-- Nvim Notify
 	use("rcarriga/nvim-notify")
+
+	-- Dressing ()
+	use({ "stevearc/dressing.nvim" })
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins

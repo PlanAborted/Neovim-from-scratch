@@ -185,12 +185,13 @@ local mappings = {
 
 	p = {
 		name = "PNPM (custom)",
-		b = { "<cmd>lua _PNPM_BUILD_TOGGLE()<cr>", "Build current package" },
-		t = { "<cmd>lua _PNPM_TEST_TOGGLE()<cr>", "Test current package" },
-		p = { "<cmd>lua _PNPM_PLUGINS_PACKAGE_TOGGLE()<cr>", "Package Plugins from Root" },
-		w = { "<cmd>lua _PNPM_WATCH_TOGGLE()<cr>", "Watch current package" },
-		d = { "<cmd>lua _DC_DOWN()<cr>", "Docker-compose down" },
-		u = { "<cmd>lua _DC_UP()<cr>", "Docker-compose up" },
+		b = { "<cmd>lua require('user.custom').build()<cr>", "Build current package" },
+		B = { "<cmd>lua require('user.custom').buildAll()<cr>", "Build All packages" },
+		t = { "<cmd>lua require('user.custom').test()<cr>", "Test current package" },
+		p = { "<cmd>lua require('user.custom').pluginsPackage()<cr>", "Package Plugins from Root" },
+		w = { "<cmd>lua require('user.custom').watch()<cr>", "Watch current package" },
+		d = { "<cmd>lua require('user.custom').dcDown()<cr>", "Docker-compose down" },
+		u = { "<cmd>lua require('user.custom').dcUp()<cr>", "Docker-compose up" },
 	},
 
 	t = {
