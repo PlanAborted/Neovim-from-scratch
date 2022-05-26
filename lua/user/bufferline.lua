@@ -1,6 +1,6 @@
 local status_ok, bufferline = pcall(require, "bufferline")
 if not status_ok then
-    return
+	return
 end
 
 -- bufferline.setup({
@@ -166,22 +166,22 @@ end
 --     },
 -- })
 require("bufferline").setup({
-    options = {
-        show_close_icon = false,
-        diagnostics = "nvim_lsp",
-        always_show_bufferline = false,
-        separator_style = "default",
-        diagnostics_indicator = function(_, _, diag)
-            local s = {}
-            return table.concat(s, " ")
-        end,
-        offsets = {
-            {
-                filetype = "NvimTree",
-                text = "NvimTree",
-                highlight = "Directory",
-                text_align = "left",
-            },
-        },
-    },
+	options = {
+		show_close_icon = false,
+		diagnostics = "nvim_lsp",
+		always_show_bufferline = false,
+		separator_style = "default",
+		diagnostics_indicator = function(_, _, diag)
+			local s = {}
+			return table.concat(s, " ")
+		end,
+		offsets = {
+			{
+				filetype = "NvimTree",
+				text = "File Explorer",
+				highlight = "Directory",
+				text_align = "center",
+			},
+		},
+	},
 })

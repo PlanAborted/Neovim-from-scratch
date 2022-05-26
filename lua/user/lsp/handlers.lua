@@ -154,6 +154,7 @@ local lsp_formatting = function(bufnr)
 			end, clients)
 		end,
 		bufnr = bufnr,
+		async = false,
 	})
 end
 -- if you want to set up formatting on save, you can use this as a callback

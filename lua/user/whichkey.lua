@@ -185,6 +185,8 @@ local mappings = {
 
 	p = {
 		name = "PNPM (custom)",
+		i = { "<cmd>lua require('user.custom').install()<cr>", "Install current package" },
+		I = { "<cmd>lua require('user.custom').installAll()<cr>", "Install All packages" },
 		b = { "<cmd>lua require('user.custom').build()<cr>", "Build current package" },
 		B = { "<cmd>lua require('user.custom').buildAll()<cr>", "Build All packages" },
 		t = { "<cmd>lua require('user.custom').test()<cr>", "Test current package" },
@@ -192,6 +194,9 @@ local mappings = {
 		w = { "<cmd>lua require('user.custom').watch()<cr>", "Watch current package" },
 		d = { "<cmd>lua require('user.custom').dcDown()<cr>", "Docker-compose down" },
 		u = { "<cmd>lua require('user.custom').dcUp()<cr>", "Docker-compose up" },
+		o = { "<cmd>lua require('user.custom').openBash()<cr>", "Open bash here" },
+		O = { "<cmd>lua require('user.custom').openBashRoot()<cr>", "Open bash in Root" },
+		j = { "<cmd>lua require('user.custom-picker').jobs()<cr>", "Open bash in Root" },
 	},
 
 	t = {

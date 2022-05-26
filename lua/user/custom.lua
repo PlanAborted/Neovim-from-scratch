@@ -2,6 +2,27 @@ local Job = require("plenary.job")
 
 local utility = require("user.utility")
 
+local M = {}
+
+M.jobs = {}
+
+local function addJob(jobDef)
+	table.insert(M.jobs, jobDef)
+end
+
+local function removeJob(jobIndex)
+	table.remove(M.jobs, jobIndex)
+end
+
+local function indexOf(array, value)
+	for i, v in ipairs(array) do
+		if v == value then
+			return i
+		end
+	end
+	return nil
+end
+
 local function getFileDirPath(root)
 	root = root or false
 
@@ -22,7 +43,7 @@ local function createPnpmRunCommandKitty(config)
 		.. utility.ternary(config.hold == true, " --hold", "")
 		.. " docker-compose exec -w "
 		.. getFileDirPath(config.root)
-		.. " server pnpm run "
+		.. " server "
 		.. config.command
 		.. " &"
 end
@@ -33,6 +54,8 @@ end
 
 local function newDcJob(args, notifConfig, timer)
 	-- TODO: add name of the package in title of description
+	local jobIndex = #M.jobs + 1
+
 	local job = Job:new({
 		command = "docker-compose",
 		args = args,
@@ -40,7 +63,7 @@ local function newDcJob(args, notifConfig, timer)
 		env = { PATH = vim.env.PATH },
 		on_exit = function(j, result)
 			timer:close()
-			-- vim.api.nvim_win_close()
+			removeJob(jobIndex)
 			if tonumber(vim.inspect(result)) == 0 then
 				vim.notify("Finished with success !", vim.log.levels.INFO, {
 					title = notifConfig.title,
@@ -66,6 +89,8 @@ local function newDcJob(args, notifConfig, timer)
 			end
 		end,
 	})
+
+	addJob({ notifConfig.title .. " " .. notifConfig.path, job, jobIndex })
 
 	return {
 		start = function()
@@ -105,32 +130,13 @@ local function runDcCommandJob(args, notifConfig)
 	newDCJob.start()
 end
 
-local function runPnpmRunCommandJob(command, root, title)
-	root = root or false
-	local notification
-	local data = { index = 0 }
-
-	local timer = vim.loop.new_timer()
-	timer:start(
-		0,
-		150,
-		vim.schedule_wrap(function()
-			notification = vim.notify("In progress ...\nFolder : " .. getFileDirPath(root), vim.log.levels.WARN, {
-				title = title,
-				icon = getNextSpinner(data),
-				replace = notification,
-				hide_from_history = true,
-			})
-		end)
-	)
-	local args = { "exec", "-T", "-w" .. getFileDirPath(root), "server", "pnpm", "run", command }
-
-	local newDCJob = newDcJob(args, { title, notification }, timer)
-	newDCJob.start()
-end
-
 local function prepareDcExecArgs(path, command)
-	local args = { "exec", "-T", "-w" .. path, "server", "pnpm", "run", command }
+	local args
+	if command == "install" then
+		args = { "exec", "-T", "-w" .. path, "server", "pnpm", command }
+	else
+		args = { "exec", "-T", "-w" .. path, "server", "pnpm", "run", command }
+	end
 	return args
 end
 
@@ -141,8 +147,6 @@ local function prepareInProgressDesc(path)
 	end
 	return desc
 end
-
-local M = {}
 
 M.dcDown = function()
 	local args = { "down" }
@@ -162,6 +166,42 @@ M.dcUp = function()
 	runDcCommandJob(args, notifConfig)
 end
 
+M.install = function()
+	local config = {
+		root = false,
+		command = "install",
+	}
+
+	local path = getFileDirPath(config.root)
+
+	local args = prepareDcExecArgs(path, config.command)
+
+	local notifConfig = {
+		title = "Installing",
+		description = prepareInProgressDesc(path),
+		path = path,
+	}
+	runDcCommandJob(args, notifConfig)
+end
+
+M.installAll = function()
+	local config = {
+		root = true,
+		command = "install",
+	}
+
+	local path = getFileDirPath(config.root)
+
+	local args = prepareDcExecArgs(path, config.command)
+
+	local notifConfig = {
+		title = "Installing all packages",
+		description = prepareInProgressDesc(path),
+		path = path,
+	}
+	runDcCommandJob(args, notifConfig)
+end
+
 M.build = function()
 	local config = {
 		root = false,
@@ -175,6 +215,7 @@ M.build = function()
 	local notifConfig = {
 		title = "Building",
 		description = prepareInProgressDesc(path),
+		path = path,
 	}
 	runDcCommandJob(args, notifConfig)
 end
@@ -192,6 +233,7 @@ M.buildAll = function()
 	local notifConfig = {
 		title = "Building all packages",
 		description = prepareInProgressDesc(path),
+		path = path,
 	}
 	runDcCommandJob(args, notifConfig)
 end
@@ -209,13 +251,14 @@ M.pluginsPackage = function()
 	local notifConfig = {
 		title = "Packaging Plugins",
 		description = prepareInProgressDesc(path),
+		path = path,
 	}
 	runDcCommandJob(args, notifConfig)
 end
 
 M.test = function()
 	local config = {
-		command = "test",
+		command = "pnpm run test",
 		root = false,
 		hold = true,
 	}
@@ -224,8 +267,26 @@ end
 
 M.watch = function()
 	local config = {
-		command = "watch",
+		command = "pnpm run watch",
 		root = false,
+		hold = true,
+	}
+	runPnpmRunCommandKitty(config)
+end
+
+M.openBash = function()
+	local config = {
+		command = "bash",
+		root = false,
+		hold = true,
+	}
+	runPnpmRunCommandKitty(config)
+end
+
+M.openBashRoot = function()
+	local config = {
+		command = "bash",
+		root = true,
 		hold = true,
 	}
 	runPnpmRunCommandKitty(config)

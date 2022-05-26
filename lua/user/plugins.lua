@@ -19,7 +19,7 @@ end
 vim.cmd([[
   augroup packer_user_config
     autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
+    autocmd BufWritePost plugins.lua source <afile> | PackerInstall
   augroup end
 ]])
 
@@ -67,6 +67,10 @@ return packer.startup(function(use)
 	use("lunarvim/darkplus.nvim")
 	use("sainnhe/sonokai")
 	use("folke/tokyonight.nvim")
+	use({
+		"catppuccin/nvim",
+		as = "catppuccin",
+	})
 
 	-- cmp plugins
 	use("hrsh7th/nvim-cmp") -- The completion plugin
@@ -103,10 +107,6 @@ return packer.startup(function(use)
 	-- Git
 	use("lewis6991/gitsigns.nvim")
 	use("tpope/vim-fugitive")
-	use({ "sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim" })
-
-	-- Nightfox
-	use({ "EdenEast/nightfox.nvim", tag = "v1.0.0" })
 
 	-- Hop
 	use("phaazon/hop.nvim")
@@ -125,6 +125,9 @@ return packer.startup(function(use)
 
 	-- Dressing ()
 	use({ "stevearc/dressing.nvim" })
+
+	-- Fidget (Nvim LSP notif)
+	use("j-hui/fidget.nvim")
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
