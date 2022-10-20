@@ -5,8 +5,8 @@ M.setup = function()
 	local signs = {
 		{ name = "DiagnosticSignError", text = "" },
 		{ name = "DiagnosticSignWarn", text = "" },
-		{ name = "DiagnosticSignHint", text = "" },
-		{ name = "DiagnosticSignInfo", text = "" },
+		{ name = "DiagnosticSignHint", text = "" },
+		{ name = "DiagnosticSignInfo", text = "" },
 	}
 
 	for _, sign in ipairs(signs) do
@@ -105,21 +105,21 @@ M.setup = function()
 	-- end
 end
 
-local function lsp_highlight_document(client)
-	-- Set autocommands conditional on server_capabilities
-	if client.server_capabilities.document_highlight then
-		vim.api.nvim_exec(
-			[[
-      augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]],
-			false
-		)
-	end
-end
+-- local function lsp_highlight_document(client)
+-- 	-- Set autocommands conditional on server_capabilities
+-- 	if client.server_capabilities.document_highlight then
+-- 		vim.api.nvim_exec(
+-- 			[[
+--       augroup lsp_document_highlight
+--         autocmd! * <buffer>
+--         autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+--         autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+--       augroup END
+--     ]],
+-- 			false
+-- 		)
+-- 	end
+-- end
 
 local function lsp_keymaps(bufnr)
 	local opts = { noremap = true, silent = true }
@@ -147,11 +147,8 @@ end
 
 local lsp_formatting = function(bufnr)
 	vim.lsp.buf.format({
-		filter = function(clients)
-			-- filter out clients that you don't want to use
-			return vim.tbl_filter(function(client)
-				return client.name ~= "tsserver"
-			end, clients)
+		filter = function(client)
+			return client.name == "null-ls"
 		end,
 		bufnr = bufnr,
 		async = false,
@@ -161,9 +158,6 @@ end
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 M.on_attach = function(client, bufnr)
-	if client.name == "tsserver" then
-		client.server_capabilities.document_formatting = false
-	end
 	if client.supports_method("textDocument/formatting") then
 		vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
 		vim.api.nvim_create_autocmd("BufWritePre", {
@@ -176,7 +170,7 @@ M.on_attach = function(client, bufnr)
 	end
 
 	lsp_keymaps(bufnr)
-	lsp_highlight_document(client)
+	-- lsp_highlight_document(client)
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -186,6 +180,6 @@ if not status_ok then
 	return
 end
 
-M.capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
+M.capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
 return M

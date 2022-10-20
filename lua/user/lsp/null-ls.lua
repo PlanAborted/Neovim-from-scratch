@@ -24,5 +24,6 @@ null_ls.setup({
 		code_actions.eslint_d,
 		formatting.black.with({ extra_args = { "--fast" } }),
 		formatting.stylua,
+		code_actions.gitsigns,
 	},
 })

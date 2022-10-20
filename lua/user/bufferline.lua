@@ -166,21 +166,45 @@ end
 --     },
 -- })
 require("bufferline").setup({
+	highlights = {
+		buffer_selected = {
+			bold = true,
+		},
+		separator_selected = {
+			fg = "none",
+			bg = "none",
+		},
+		separator_visible = {
+			fg = "none",
+			bg = "none",
+		},
+		separator = {
+			fg = "none",
+			bg = "none",
+		},
+	},
 	options = {
 		show_close_icon = false,
 		diagnostics = "nvim_lsp",
 		always_show_bufferline = false,
-		separator_style = "default",
+		separator_style = { "", "" },
+		-- indicator_icon = "▎",
+		-- buffer_close_icon = "",
+		-- modified_icon = "●",
+		-- close_icon = "",
+		left_trunc_marker = "",
+		right_trunc_marker = "",
 		diagnostics_indicator = function(_, _, diag)
 			local s = {}
 			return table.concat(s, " ")
 		end,
+		show_buffer_close_icons = false,
 		offsets = {
 			{
 				filetype = "NvimTree",
 				text = "File Explorer",
 				highlight = "Directory",
-				text_align = "center",
+				text_align = "left",
 			},
 		},
 	},

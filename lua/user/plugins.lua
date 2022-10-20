@@ -32,10 +32,19 @@ end
 -- Have packer use a popup window
 packer.init({
 	max_jobs = 5,
+	preview_updates = false, -- If true, always preview updates before choosing which plugins to update, same as `PackerUpdate --preview`.
 	display = {
 		open_fn = function()
 			return require("packer.util").float({ border = "rounded" })
 		end,
+		keybindings = { -- Keybindings for the display window
+			quit = "q",
+			toggle_update = "u", -- only in preview
+			continue = "c", -- only in preview
+			toggle_info = "<CR>",
+			diff = "d",
+			prompt_revert = "r",
+		},
 	},
 })
 
@@ -64,13 +73,7 @@ return packer.startup(function(use)
 
 	-- Colorschemes
 	-- use "lunarvim/colorschemes" -- A bunch of colorschemes you can try out
-	use("lunarvim/darkplus.nvim")
-	use("sainnhe/sonokai")
 	use("folke/tokyonight.nvim")
-	use({
-		"catppuccin/nvim",
-		as = "catppuccin",
-	})
 
 	-- cmp plugins
 	use("hrsh7th/nvim-cmp") -- The completion plugin
@@ -88,7 +91,7 @@ return packer.startup(function(use)
 	use("neovim/nvim-lspconfig") -- enable LSP
 	use("williamboman/nvim-lsp-installer") -- simple to use language server installer
 	use("tamago324/nlsp-settings.nvim") -- language server settings defined in json for
-	use("jose-elias-alvarez/null-ls.nvim") -- for formatters and linters
+	use({ "jose-elias-alvarez/null-ls.nvim", compile = "76d0573fc159839a9c4e62a0ac4f1046845cdd50" }) -- for formatters and linters
 	use("jose-elias-alvarez/nvim-lsp-ts-utils") -- for formatters and linters
 	use("ray-x/lsp_signature.nvim")
 
@@ -103,10 +106,13 @@ return packer.startup(function(use)
 		run = ":TSUpdate",
 	})
 	use("JoosepAlviste/nvim-ts-context-commentstring")
+	use({
+		"nvim-treesitter/nvim-treesitter-context",
+	})
 
 	-- Git
 	use("lewis6991/gitsigns.nvim")
-	use("tpope/vim-fugitive")
+	use({ "sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim" })
 
 	-- Hop
 	use("phaazon/hop.nvim")
@@ -117,17 +123,26 @@ return packer.startup(function(use)
 	-- AutoSession
 	use("rmagatti/auto-session")
 
-	-- Nvim Spectre (Search and Replace)
-	use("windwp/nvim-spectre")
-
 	-- Nvim Notify
 	use("rcarriga/nvim-notify")
 
-	-- Dressing ()
+	-- Dressing (Native NVIM UI look)
 	use({ "stevearc/dressing.nvim" })
 
 	-- Fidget (Nvim LSP notif)
 	use("j-hui/fidget.nvim")
+
+	-- Nvim Surround
+	use("kylechui/nvim-surround")
+
+	-- Vim Startuptime
+	use("dstein64/vim-startuptime")
+
+	-- Overseer (task runner)
+	use("stevearc/overseer.nvim")
+
+	-- Presenting
+	use("sotte/presenting.vim")
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins

@@ -14,7 +14,7 @@ local setup = {
 		-- the presets plugin, adds help for a bunch of default keybindings in Neovim
 		-- No actual key bindings are created
 		presets = {
-			operators = false, -- adds help for operators like d, y, ... and registers them for motion / text object completion
+			operators = true, -- adds help for operators like d, y, ... and registers them for motion / text object completion
 			motions = true, -- adds help for motions
 			text_objects = true, -- help for text objects triggered after entering an operator
 			windows = true, -- default bindings on <c-w>
@@ -80,6 +80,8 @@ local opts = {
 
 local mappings = {
 	-- ["a"] = { "<cmd>Alpha<cr>", "Alpha" },
+	[" "] = { "<cmd>lua require'hop'.hint_words()<cr>", "Jump to word" },
+	["<cr>"] = { "<cmd>Telescope resume<cr>", "Telescope resume" },
 	["b"] = {
 		"<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false})<cr>",
 		"Buffers",
@@ -107,12 +109,11 @@ local mappings = {
 
 	g = {
 		name = "Git",
-		-- g = { "<cmd>DiffviewOpen<CR>", "Git status" },
 		g = { "<cmd>lua _LAZYGIT_TOGGLE()<cr>", "LazyGit" },
-		h = { "<cmd>DiffviewFileHistory<CR>", "Git file history" },
+		h = { "<cmd>DiffviewFileHistory %<CR>", "Git file history" },
 		j = { "<cmd>lua require 'gitsigns'.next_hunk()<cr>", "Next Hunk" },
 		k = { "<cmd>lua require 'gitsigns'.prev_hunk()<cr>", "Prev Hunk" },
-		B = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
+		b = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
 		l = { "<cmd>lua _GITLOG_TOGGLE()<cr>", "Git Log" },
 		p = { "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", "Preview Hunk" },
 		r = { "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", "Reset Hunk" },
@@ -123,7 +124,6 @@ local mappings = {
 			"Undo Stage Hunk",
 		},
 		o = { "<cmd>Telescope git_status<cr>", "Open changed file" },
-		b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
 		c = { "<cmd>G commit<cr>", "Git commit" },
 		d = {
 			"<cmd>Gitsigns diffthis HEAD<cr>",
@@ -150,7 +150,7 @@ local mappings = {
 			"<cmd>Telescope lsp_workspace_diagnostics<cr>",
 			"Workspace Diagnostics",
 		},
-		f = { "<cmd>lua vim.lsp.buf.formatting()<cr>", "Format" },
+		f = { "<cmd>lua vim.lsp.buf.format()<cr>", "Format" },
 		i = { "<cmd>LspInfo<cr>", "Info" },
 		I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
 		j = {
@@ -164,6 +164,7 @@ local mappings = {
 		l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
 		q = { "<cmd>lua vim.diagnostic.setloclist()<cr>", "Quickfix" },
 		r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
+		R = { "<cmd>LspRestart<cr>", "Restart LSP" },
 		s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
 		S = {
 			"<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
@@ -197,6 +198,19 @@ local mappings = {
 		o = { "<cmd>lua require('user.custom').openBash()<cr>", "Open bash here" },
 		O = { "<cmd>lua require('user.custom').openBashRoot()<cr>", "Open bash in Root" },
 		j = { "<cmd>lua require('user.custom-picker').jobs()<cr>", "Open bash in Root" },
+	},
+
+	r = {
+		name = "Overseer",
+		-- b = { "<cmd>lua require('overseer').run_template({name = 'build'})<cr>", "Build package" },
+		b = { "<cmd>lua require('user.overseer-custom-templates').run('build',false)<cr>", "Build current package" },
+		B = { "<cmd>lua require('user.overseer-custom-templates').run('build',true)<cr>", "Build all packages" },
+		i = {
+			"<cmd>lua require('user.overseer-custom-templates').run('install',false)<cr>",
+			"Install current package",
+		},
+		I = { "<cmd>lua require('user.overseer-custom-templates').run('install',true)<cr>", "Install all packages" },
+		r = { "<cmd>OverseerToggle<cr>", "Overseer Toggle" },
 	},
 
 	t = {

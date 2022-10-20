@@ -26,7 +26,7 @@ local options = {
 	tabstop = 4, -- insert 2 spaces for a tab
 	softtabstop = 2,
 	cursorline = true, -- highlight the current line
-	cursorcolumn = true,
+	cursorcolumn = false,
 	number = true, -- set numbered lines
 	relativenumber = false, -- set relative numbered lines
 	numberwidth = 4, -- set number column width to 2 {default 4}
@@ -34,9 +34,9 @@ local options = {
 	wrap = false, -- display lines as one long line
 	scrolloff = 8, -- is one of my fav
 	sidescrolloff = 8,
-	guifont = "monospace:h17", -- the font used in graphical neovim applications
 	hidden = true,
 	laststatus = 3,
+	guifont = "JetBrainsMono Nerd Front Mono:h14",
 }
 vim.notify = require("notify")
 vim.opt.shortmess:append("c")

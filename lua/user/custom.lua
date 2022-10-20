@@ -90,7 +90,7 @@ local function newDcJob(args, notifConfig, timer)
 		end,
 	})
 
-	addJob({ notifConfig.title .. " " .. notifConfig.path, job, jobIndex })
+	addJob({ notifConfig.title .. " " .. (notifConfig.path or ""), job, jobIndex })
 
 	return {
 		start = function()

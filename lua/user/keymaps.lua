@@ -63,8 +63,17 @@ keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
 -- Smart Cursor --
-keymap("n", "o", 'o<cmd>lua require("smart-cursor").indent_cursor()<cr>', { silent = true, noremap = true })
-keymap("n", "O", 'O<cmd>lua require("smart-cursor").indent_cursor()<cr>', { silent = true, noremap = true })
+keymap("n", "o", 'o<cmd>lua require("smart-cursor").indent_cursor()<cr>', opts)
+keymap("n", "O", 'O<cmd>lua require("smart-cursor").indent_cursor()<cr>', opts)
+
+-- Global marks --
+keymap("n", "m", "'m'.toupper(nr2char(getchar()))", { silent = true, noremap = true, expr = true })
+keymap("n", "'", [["'".toupper(nr2char(getchar()))]], { silent = true, noremap = true, expr = true })
+
+-- Colon - Semi colon --
+
+keymap("n", ";", ":", opts)
+keymap("v", ";", ":", opts)
 
 -- Terminal --
 -- Better terminal navigation

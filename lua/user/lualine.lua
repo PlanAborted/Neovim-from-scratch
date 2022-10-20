@@ -3,93 +3,65 @@ if not status_ok then
 	return
 end
 
-local hide_in_width = function()
-	return vim.fn.winwidth(0) > 80
+local hide_in_width = function(width)
+	return function()
+		return vim.fn.winwidth(0) > width
+	end
 end
 
-local diagnostics = {
-	"diagnostics",
-	sources = { "nvim_diagnostic" },
-	sections = { "error", "warn" },
-	symbols = { error = " ", warn = " " },
-	colored = false,
-	update_in_insert = false,
-	always_visible = true,
+local components = {
+	mode = {
+		"mode",
+		padding = 1,
+		icons_enabled = true,
+	},
+	branch = {
+		"branch",
+		icons_enabled = true,
+		icon = "",
+		cond = hide_in_width(60),
+	},
+	filename = {
+		"filename",
+		path = 1,
+	},
+	filetype = {
+		"filetype",
+		cond = hide_in_width(80),
+	},
+	location = {
+		"location",
+	},
+	progress = {
+		"progress",
+		left_padding = 2,
+	},
 }
-
-local diff = {
-	"diff",
-	colored = false,
-	symbols = { added = "+", modified = "?", removed = "-" }, -- changes diff symbols
-	cond = hide_in_width,
-}
-
-local mode = {
-	"mode",
-}
-
-local filetype = {
-	"filetype",
-}
-
-local filename = {
-	"filename",
-	path = 1,
-}
-
-local branch = {
-	"branch",
-	icons_enabled = true,
-	icon = "",
-}
-
-local location = {
-	"location",
-	padding = 0,
-}
-
--- cool function for progress
--- local progress = function()
---     local current_line = vim.fn.line(".")
---     local total_lines = vim.fn.line("$")
---     local chars = { "__", "▁▁", "▂▂", "▃▃", "▄▄", "▅▅", "▆▆", "▇▇", "██" }
---     local line_ratio = current_line / total_lines
---     local index = math.ceil(line_ratio * #chars)
---     return chars[index]
--- end
-
--- local spaces = function()
--- 	return "spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
--- end
 
 lualine.setup({
 	options = {
-		section_separators = { left = "", right = "" },
-		component_separators = { left = "", right = "" },
+		component_separators = { left = "", right = "" },
+		section_separators = { left = "", right = "" },
 		icons_enabled = true,
-		theme = "tokyonight",
-		-- theme = "catppuccin",
+		theme = "auto",
 		disabled_filetypes = { "alpha", "dashboard", "NvimTree", "Outline" },
-		always_divide_middle = true,
+		always_divide_middle = false,
 	},
 	sections = {
-		lualine_a = { mode },
-		lualine_b = { branch },
-		lualine_c = {
-			filename,
-		},
-		-- lualine_x = { "encoding", "fileformat", "filetype" },
+		lualine_a = { components.mode },
+		lualine_b = { components.branch },
+		lualine_c = { components.filename },
 		lualine_x = {
-			filetype,
+			"overseer",
 		},
-		lualine_y = { location },
-		lualine_z = { "progress" },
+		lualine_y = { components.filetype, components.location },
+		lualine_z = { components.progress },
 	},
 	inactive_sections = {
 		lualine_a = {},
 		lualine_b = {},
-		lualine_c = { "filename" },
-		lualine_x = { "location" },
+		lualine_c = { components.filename },
+		lualine_x = { components.location },
 		lualine_y = {},
 		lualine_z = {},
 	},

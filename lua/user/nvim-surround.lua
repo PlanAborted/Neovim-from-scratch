@@ -1,0 +1,59 @@
+local status_ok, nvim_surround = pcall(require, "nvim-surround")
+if not status_ok then
+	return
+end
+
+nvim_surround.setup({
+	keymaps = { -- vim-surround style keymaps
+		insert = "ys",
+		insert_line = "yss",
+		visual = "S",
+		delete = "ds",
+		change = "cs",
+	},
+	surrounds = {
+		--[[ ["("] = { "( ", " )" }, ]]
+		--[[ [")"] = { "(", ")" }, ]]
+		--[[ ["{"] = { "{ ", " }" }, ]]
+		--[[ ["}"] = { "{", "}" }, ]]
+		--[[ ["<"] = { "< ", " >" }, ]]
+		--[[ [">"] = { "<", ">" }, ]]
+		--[[ ["["] = { "[ ", " ]" }, ]]
+		--[[ ["]"] = { "[", "]" }, ]]
+		-- Define pairs based on function evaluations!
+		--[[ ["i"] = function() ]]
+		--[[ 	return { ]]
+		--[[ 		require("nvim-surround.utils").get_input("Enter the left delimiter: "), ]]
+		--[[ 		require("nvim-surround.utils").get_input("Enter the right delimiter: "), ]]
+		--[[ 	} ]]
+		--[[ end, ]]
+		["f"] = {
+			add = function()
+				local config = require("nvim-surround.config")
+				local result = config.get_input("Enter the function name: ")
+				if result then
+					return { { result .. "(" }, { ")" } }
+				end
+			end,
+		},
+		--[[ ["'"] = { "'", "'" }, ]]
+		--[[ ['"'] = { '"', '"' }, ]]
+		--[[ ["`"] = { "`", "`" }, ]]
+		HTML = {
+			["t"] = "type", -- Change just the tag type
+			["T"] = "whole", -- Change the whole tag contents
+		},
+		aliases = {
+			["a"] = ">", -- Single character aliases apply everywhere
+			["b"] = ")",
+			["B"] = "}",
+			["r"] = "]",
+			-- Table aliases only apply for changes/deletions
+			["q"] = { '"', "'", "`" }, -- Any quote character
+			["s"] = { ")", "]", "}", ">", "'", '"', "`" }, -- Any surrounding delimiter
+		},
+	},
+	highlight = { -- Highlight before inserting/changing surrounds
+		duration = 0,
+	},
+})
