@@ -32,6 +32,9 @@ local components = {
 	location = {
 		"location",
 	},
+	overseer = {
+		"overseer",
+	},
 	progress = {
 		"progress",
 		left_padding = 2,
@@ -51,9 +54,7 @@ lualine.setup({
 		lualine_a = { components.mode },
 		lualine_b = { components.branch },
 		lualine_c = { components.filename },
-		lualine_x = {
-			"overseer",
-		},
+		lualine_x = { components.overseer },
 		lualine_y = { components.filetype, components.location },
 		lualine_z = { components.progress },
 	},

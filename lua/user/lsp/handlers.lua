@@ -55,71 +55,7 @@ M.setup = function()
 	vim.lsp.handlers["window/showMessage"] = function(_, method, params)
 		vim.notify(method.message, severity[params.type])
 	end
-
-	-- -- LSP integration (NVIM Notify)
-	-- -- Make sure to also have the snippet with the common helper functions in your config!
-	--
-	-- local utility = require("user.utility")
-	--
-	-- vim.lsp.handlers["$/progress"] = function(_, result, ctx)
-	-- 	local client_id = ctx.client_id
-	--
-	-- 	local val = result.value
-	--
-	-- 	if not val.kind then
-	-- 		return
-	-- 	end
-	--
-	-- 	local notif_data = utility.get_notif_data(client_id, result.token)
-	--
-	-- 	if val.kind == "begin" then
-	-- 		local message = utility.format_message(val.message, val.percentage)
-	--
-	-- 		notif_data.notification = vim.notify(message, "info", {
-	-- 			title = utility.format_title(val.title, vim.lsp.get_client_by_id(client_id).name),
-	-- 			icon = utility.icons.spinner[1],
-	-- 			timeout = false,
-	-- 			hide_from_history = false,
-	-- 		})
-	--
-	-- 		notif_data.spinner = 1
-	-- 		utility.update_spinner(client_id, result.token)
-	-- 	elseif val.kind == "report" and notif_data then
-	-- 		notif_data.notification = vim.notify(utility.format_message(val.message, val.percentage), "info", {
-	-- 			replace = notif_data.notification,
-	-- 			hide_from_history = false,
-	-- 		})
-	-- 	elseif val.kind == "end" and notif_data then
-	-- 		notif_data.notification = vim.notify(
-	-- 			val.message and utility.format_message(val.message) or "Complete",
-	-- 			"info",
-	-- 			{
-	-- 				icon = utility.icons.success,
-	-- 				replace = notif_data.notification,
-	-- 				timeout = 3000,
-	-- 			}
-	-- 		)
-	--
-	-- 		notif_data.spinner = nil
-	-- 	end
-	-- end
 end
-
--- local function lsp_highlight_document(client)
--- 	-- Set autocommands conditional on server_capabilities
--- 	if client.server_capabilities.document_highlight then
--- 		vim.api.nvim_exec(
--- 			[[
---       augroup lsp_document_highlight
---         autocmd! * <buffer>
---         autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
---         autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
---       augroup END
---     ]],
--- 			false
--- 		)
--- 	end
--- end
 
 local function lsp_keymaps(bufnr)
 	local opts = { noremap = true, silent = true }
@@ -128,10 +64,7 @@ local function lsp_keymaps(bufnr)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>f", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
 	vim.api.nvim_buf_set_keymap(
 		bufnr,
@@ -154,6 +87,37 @@ local lsp_formatting = function(bufnr)
 		async = false,
 	})
 end
+
+local async_formatting = function(bufnr)
+	bufnr = bufnr or vim.api.nvim_get_current_buf()
+
+	vim.lsp.buf_request(
+		bufnr,
+		"textDocument/formatting",
+		vim.lsp.util.make_formatting_params({}),
+		function(err, res, ctx)
+			if err then
+				local err_msg = type(err) == "string" and err or err.message
+				-- you can modify the log message / level (or ignore it completely)
+				vim.notify("formatting: " .. err_msg, vim.log.levels.WARN)
+				return
+			end
+
+			-- don't apply results if buffer is unloaded or has been modified
+			if not vim.api.nvim_buf_is_loaded(bufnr) or vim.api.nvim_buf_get_option(bufnr, "modified") then
+				return
+			end
+
+			if res then
+				local client = vim.lsp.get_client_by_id(ctx.client_id)
+				vim.lsp.util.apply_text_edits(res, bufnr, client and client.offset_encoding or "utf-16")
+				vim.api.nvim_buf_call(bufnr, function()
+					vim.cmd("silent noautocmd update")
+				end)
+			end
+		end
+	)
+end
 -- if you want to set up formatting on save, you can use this as a callback
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
@@ -164,13 +128,12 @@ M.on_attach = function(client, bufnr)
 			group = augroup,
 			buffer = bufnr,
 			callback = function()
-				lsp_formatting(bufnr)
+				async_formatting(bufnr)
 			end,
 		})
 	end
 
 	lsp_keymaps(bufnr)
-	-- lsp_highlight_document(client)
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
