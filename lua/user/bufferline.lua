@@ -170,6 +170,15 @@ require("bufferline").setup({
 		buffer_selected = {
 			bold = true,
 		},
+		indicator_selected = {
+			fg = { attribute = "fg", highlight = "LspDiagnosticsDefaultHint" },
+			bg = { attribute = "bg", highlight = "Normal" },
+		},
+		--[[ indicator_selected = { ]]
+		--[[]]
+		--[[ 	bg = { attribute = "bg", highlight = "underline" }, ]]
+		--[[ 	sp = { attribute = "bg", highlight = "TabLineSel" }, ]]
+		--[[ }, ]]
 		separator_selected = {
 			fg = "none",
 			bg = "none",
@@ -194,6 +203,10 @@ require("bufferline").setup({
 		-- close_icon = "",
 		left_trunc_marker = "",
 		right_trunc_marker = "",
+		indicator = {
+			--[[ icon = '▎', -- this should be omitted if indicator style is not 'icon' ]]
+			style = "underline",
+		},
 		diagnostics_indicator = function(_, _, diag)
 			local s = {}
 			return table.concat(s, " ")
