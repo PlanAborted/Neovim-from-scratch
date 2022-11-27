@@ -9,10 +9,52 @@ local hide_in_width = function(width)
 	end
 end
 
+local mode_map = {
+	["n"] = "N",
+	["no"] = "OP",
+	["nov"] = "OP",
+	["noV"] = "OP",
+	["no\22"] = "OP",
+	["niI"] = "NI",
+	["niR"] = "NR",
+	["niV"] = "N",
+	["nt"] = "NT",
+	["v"] = "V",
+	["vs"] = "V",
+	["V"] = "VL",
+	["Vs"] = "VL",
+	["\22"] = "VB",
+	["\22s"] = "VB",
+	["s"] = "S",
+	["S"] = "SL",
+	["\19"] = "SB",
+	["i"] = "I",
+	["ic"] = "IC",
+	["ix"] = "IX",
+	["R"] = "R",
+	["Rc"] = "RC",
+	["Rx"] = "RX",
+	["Rv"] = "VR",
+	["Rvc"] = "RVC",
+	["Rvx"] = "RVX",
+	["c"] = "C",
+	["cv"] = "EX",
+	["ce"] = "EX",
+	["r"] = "R",
+	["rm"] = "M",
+	["r?"] = "C",
+	["!"] = "SH",
+	["t"] = "T",
+}
+
+local function modes()
+	return mode_map[vim.api.nvim_get_mode().mode] or "__"
+end
+
 local components = {
 	mode = {
-		"mode",
-		padding = 1,
+		modes,
+		padding = 2,
 		icons_enabled = true,
 	},
 	branch = {

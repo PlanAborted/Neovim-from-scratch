@@ -2,9 +2,9 @@ local servers = {
 	"sumneko_lua",
 	"tsserver",
 	"pyright",
-	"prosemd-lsp",
+	--[[ "prosemd-lsp", ]]
 	"jsonls",
-	"markdownlint",
+	--[[ "markdownlint", ]]
 }
 
 local settings = {
