@@ -107,6 +107,12 @@ local mappings = {
 		u = { "<cmd>PackerUpdate<cr>", "Update" },
 	},
 
+	m = {
+		name = "Markdown Preview",
+		m = { "<cmd>MarkdownPreviewToggle<cr>", "Toggle" },
+		a = { "<cmd>MarkdownPreview<cr>", "Start" },
+		s = { "<cmd>MarkdownPreviewStop<cr>", "Stop" },
+	},
 	g = {
 		name = "Git",
 		g = { "<cmd>lua _LAZYGIT_TOGGLE()<cr>", "LazyGit" },

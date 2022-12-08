@@ -145,6 +145,19 @@ return packer.startup(function(use)
 	-- Presenting
 	use("sotte/presenting.vim")
 
+	-- PlanktUML syntax
+	use("aklt/plantuml-syntax")
+
+	-- Markdown Preview
+	use({
+		"iamcco/markdown-preview.nvim",
+		run = "cd app && npm install",
+		setup = function()
+			vim.g.mkdp_filetypes = { "markdown", "plantuml" }
+		end,
+		ft = { "markdown", "plantuml" },
+	})
+
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
 	if PACKER_BOOTSTRAP then

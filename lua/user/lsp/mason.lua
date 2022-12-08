@@ -17,6 +17,7 @@ local settings = {
 		},
 	},
 	log_level = vim.log.levels.INFO,
+	PATH = "append",
 	max_concurrent_installers = 4,
 }
 
