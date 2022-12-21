@@ -32,7 +32,7 @@ end
 -- Have packer use a popup window
 packer.init({
 	max_jobs = 5,
-	preview_updates = false, -- If true, always preview updates before choosing which plugins to update, same as `PackerUpdate --preview`.
+	preview_updates = true, -- If true, always preview updates before choosing which plugins to update, same as `PackerUpdate --preview`.
 	display = {
 		open_fn = function()
 			return require("packer.util").float({ border = "rounded" })
@@ -156,6 +156,22 @@ return packer.startup(function(use)
 			vim.g.mkdp_filetypes = { "markdown", "plantuml" }
 		end,
 		ft = { "markdown", "plantuml" },
+	})
+
+	-- Mind
+	use({
+		"PlanAborted/mind.nvim",
+		branch = "feat-close-view-on-file-open",
+		requires = { "nvim-lua/plenary.nvim" },
+	})
+
+	-- Autolist
+	use({ "gaoDean/autolist.nvim" })
+
+	-- Harpoon
+	use({
+		"ThePrimeagen/harpoon",
+		requires = { "nvim-lua/plenary.nvim" },
 	})
 
 	-- Automatically set up your configuration after cloning packer.nvim

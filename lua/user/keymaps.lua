@@ -1,9 +1,8 @@
 local opts = { noremap = true, silent = true }
 
-local term_opts = { silent = true }
-
 -- Shorten function name
 local keymap = vim.api.nvim_set_keymap
+local macOsMapAlt = require("user.utility").macOsMapAlt
 
 --Remap space as leader key
 keymap("", "<Space>", "<Nop>", opts)
@@ -18,66 +17,68 @@ vim.g.maplocalleader = " "
 --   term_mode = "t",
 --   command_mode = "c",
 
--- Normal --
 -- Better window navigation
 keymap("n", "<C-h>", "<C-w>h", opts)
 keymap("n", "<C-j>", "<C-w>j", opts)
 keymap("n", "<C-k>", "<C-w>k", opts)
 keymap("n", "<C-l>", "<C-w>l", opts)
 
--- Resize with arrows
-keymap("n", "<C-Up>", ":resize -2<CR>", opts)
-keymap("n", "<C-Down>", ":resize +2<CR>", opts)
-keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
-keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
-
 -- Navigate buffers
 keymap("n", "<S-l>", ":bnext<CR>", opts)
 keymap("n", "<S-h>", ":bprevious<CR>", opts)
 
--- Move text up and down
-keymap("i", "<A-j>", "<Esc>:m .+1<CR>==gi", opts)
-keymap("i", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
-keymap("n", "<A-j>", ":m .+1<CR>==", opts)
-keymap("n", "<A-k>", ":m .-2<CR>==", opts)
+-- On MacOs <A-key> returns a specific char
+-- <A-h> = ˙
+-- <A-j> = ∆
+-- <A-k> = ˚
+-- <A-l> = ¬
 
--- Insert --
+-- Resize windows (splits)
+--[[ keymap("n", "˙", ":resize -2<CR>", opts) ]]
+--[[ keymap("n", "¬", ":resize +2<CR>", opts) ]]
+keymap("n", macOsMapAlt("<A-h>"), ":vertical resize -2<CR>", opts)
+keymap("n", macOsMapAlt("<A-l>"), ":vertical resize +2<CR>", opts)
+
+-- Move text up and down
+keymap("i", macOsMapAlt("<A-j>"), "<Esc>:m .+1<CR>==gi", opts)
+keymap("i", macOsMapAlt("<A-k>"), "<Esc>:m .-2<CR>==gi", opts)
+keymap("n", macOsMapAlt("<A-j>"), ":m .+1<CR>==", opts)
+keymap("n", macOsMapAlt("<A-k>"), ":m .-2<CR>==", opts)
+keymap("v", macOsMapAlt("<A-j>"), ":m .+1<CR>==", opts)
+keymap("v", macOsMapAlt("<A-k>"), ":m .-2<CR>==", opts)
+keymap("x", macOsMapAlt("<A-j>"), ":m '>+1<CR>gv-gv", opts)
+keymap("x", macOsMapAlt("<A-k>"), ":m '<-2<CR>gv-gv", opts)
+
 -- Press jk fast to enter
 keymap("i", "jk", "<ESC>", opts)
 
--- Visual --
 -- Stay in indent mode
 keymap("v", "<", "<gv", opts)
 keymap("v", ">", ">gv", opts)
 
--- Move text up and down
-keymap("v", "<A-j>", ":m .+1<CR>==", opts)
-keymap("v", "<A-k>", ":m .-2<CR>==", opts)
+-- Visual paste
 keymap("v", "p", '"_dP', opts)
-
--- Visual Block --
--- Move text up and down
-keymap("x", "J", ":move '>+1<CR>gv-gv", opts)
-keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
-keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
-keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
 -- Smart Cursor --
 keymap("n", "o", 'o<cmd>lua require("smart-cursor").indent_cursor()<cr>', opts)
 keymap("n", "O", 'O<cmd>lua require("smart-cursor").indent_cursor()<cr>', opts)
 
 -- Global marks --
-keymap("n", "m", "'m'.toupper(nr2char(getchar()))", { silent = true, noremap = true, expr = true })
-keymap("n", "'", [["'".toupper(nr2char(getchar()))]], { silent = true, noremap = true, expr = true })
+--[[ keymap("n", "m", "'m'.toupper(nr2char(getchar()))", { silent = true, noremap = true, expr = true }) ]]
+--[[ keymap("n", "'", [["'".toupper(nr2char(getchar()))], { silent = true, noremap = true, expr = true }) ]]
 
 -- Colon - Semi colon --
-
 keymap("n", ";", ":", opts)
 keymap("v", ";", ":", opts)
 
--- Terminal --
--- Better terminal navigation
--- keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
--- keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
--- keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
--- keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
+-- Plugins
+-- Hop
+keymap("n", "s", "<cmd>HopPattern<cr>", opts)
+
+-- Harpoon
+keymap("n", "mt", "<cmd>lua require('harpoon.mark').add_file()<cr>", opts)
+keymap("n", "mm", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", opts)
+keymap("n", "ma", "<cmd>lua require('harpoon.ui').nav_file(1)<cr>", opts)
+keymap("n", "ms", "<cmd>lua require('harpoon.ui').nav_file(2)<cr>", opts)
+keymap("n", "md", "<cmd>lua require('harpoon.ui').nav_file(3)<cr>", opts)
+keymap("n", "mf", "<cmd>lua require('harpoon.ui').nav_file(4)<cr>", opts)

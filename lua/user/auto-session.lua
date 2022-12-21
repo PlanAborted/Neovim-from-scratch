@@ -14,5 +14,10 @@ end
 
 autosession.setup({
 	log_level = "error",
-	pre_save_cmds = { "lua require'nvim-tree'.setup()", "tabdo NvimTreeClose", _G.close_all_floating_wins },
+	pre_save_cmds = {
+		"lua require'nvim-tree'.setup()",
+		"tabdo NvimTreeClose",
+		"tabdo MindClose",
+		_G.close_all_floating_wins,
+	},
 })

@@ -19,9 +19,9 @@ overseer.setup({
 		-- max_width = {100, 0.2} means "the lesser of 100 columns or 20% of total"
 		max_width = { 100, 0.2 },
 		-- min_width = {40, 0.1} means "the greater of 40 columns or 10% of total"
-		min_width = { 40, 0.1 },
+		min_width = { 50, 0.1 },
 		-- String that separates tasks
-		separator = "────────────────────────────────────────",
+		separator = "========================================",
 		-- Default direction. Can be "left" or "right"
 		direction = "right",
 		-- Set keymap to false to remove default behavior
@@ -29,17 +29,25 @@ overseer.setup({
 		bindings = {
 			["?"] = "ShowHelp",
 			["<CR>"] = "RunAction",
-			["<C-e>"] = "Edit",
+			--[[ ["<C-e>"] = "Edit", ]]
+			["e"] = "Edit",
 			["o"] = "Open",
-			["<C-v>"] = "OpenVsplit",
-			["<C-f>"] = "OpenFloat",
+			["r"] = "<cmd>OverseerQuickAction restart<cr>",
+			["d"] = "<cmd>OverseerQuickAction dispose<cr>",
+			["s"] = "<cmd>OverseerQuickAction stop<cr>",
+			--[[ ["<C-v>"] = "OpenVsplit", ]]
+			--[[ ["<C-f>"] = "OpenFloat", ]]
+			["<C-v>"] = false,
+			["<C-f>"] = false,
 			["p"] = "TogglePreview",
-			["<C-l>"] = "IncreaseDetail",
-			["<C-h>"] = "DecreaseDetail",
-			["L"] = "IncreaseAllDetail",
-			["H"] = "DecreaseAllDetail",
-			["["] = "DecreaseWidth",
-			["]"] = "IncreaseWidth",
+			["<S-l>"] = "IncreaseDetail",
+			["<S-h>"] = "DecreaseDetail",
+			--[[ ["L"] = "IncreaseAllDetail", ]]
+			--[[ ["H"] = "DecreaseAllDetail", ]]
+			["L"] = false,
+			["H"] = false,
+			["]"] = "DecreaseWidth",
+			["["] = "IncreaseWidth",
 			["{"] = "PrevTask",
 			["}"] = "NextTask",
 		},
@@ -137,12 +145,12 @@ overseer.setup({
 			"on_complete_dispose",
 		},
 	},
-	-- This is run before creating tasks from a template
-	pre_task_hook = function(task_defn, util)
-		-- util.add_component(task_defn, "on_result_diagnostics", {"timeout", timeout = 20})
-		-- util.remove_component(task_defn, "on_complete_dispose")
-		task_defn.env = { PATH = vim.env.PATH }
-	end,
+	--[[ -- This is run before creating tasks from a template ]]
+	--[[ add_template_hook = function(task_defn, util) ]]
+	--[[ 	-- util.add_component(task_defn, "on_result_diagnostics", {"timeout", timeout = 20}) ]]
+	--[[ 	-- util.remove_component(task_defn, "on_complete_dispose") ]]
+	--[[ 	task_defn.env = { PATH = vim.env.PATH } ]]
+	--[[ end, ]]
 	-- A list of components to preload on setup.
 	-- Only matters if you want them to show up in the task editor.
 	preload_components = {},

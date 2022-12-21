@@ -35,24 +35,8 @@ overseer.register_template({
 				params.command,
 			},
 			components = {
-				-- {
-				-- 	"on_output_parse",
-				-- 	parser = {
-				-- 		-- Put the parser results into the 'diagnostics' field on the task result
-				-- 		diagnostics = {
-				-- 			-- Extract fields using lua patterns
-				-- 			{ "extract", "^([^%s].+):(%d+):(%d+) - (.+)", "filename", "lnum", "col", "text" },
-				-- 		},
-				-- 	},
-				-- 	-- on_result = function(self, task, result)
-				-- 	-- 	-- Called when a component has results to set. Usually this is after the command has completed, but certain types of tasks may wish to set a result while still running.
-				-- 	-- 	vim.diagnostic.set("test", 0, result.diagnostic)
-				-- 	-- 	vim.diagnostic.setloclist()
-				-- 	-- end,
-				-- },
-
+				{ "unique", replace = true },
 				"on_output_summarize",
-				-- { "on_result_diagnostics_quickfix", use_loclist = true },
 				"on_exit_set_status",
 				"on_complete_notify",
 				"on_complete_dispose",
@@ -82,6 +66,7 @@ overseer.register_template({
 		end,
 	},
 })
+
 local M = {}
 
 M.run = function(command, root)

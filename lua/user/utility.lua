@@ -1,5 +1,16 @@
 local M = {}
 
+M.macOsMapAlt = function(key)
+	local mappings = {
+		["<A-h>"] = "˙",
+		["<A-j>"] = "∆",
+		["<A-k>"] = "˚",
+		["<A-l>"] = "¬",
+		["<A-q>"] = "œ",
+	}
+	return mappings[key]
+end
+
 -- Custom functions and constants used project wise
 
 M.icons = {

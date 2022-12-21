@@ -6,4 +6,5 @@ end
 notify.setup({
 	fps = 60,
 	stages = "slide",
+	top_down = false,
 })
