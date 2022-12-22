@@ -7,6 +7,7 @@ mind.setup({
 	ui = {
 		width = 50,
 		open_direction = "right",
+		close_on_file_open = true,
 	},
 	keymaps = {
 		normal = {

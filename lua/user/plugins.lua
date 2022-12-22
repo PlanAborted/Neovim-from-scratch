@@ -161,7 +161,7 @@ return packer.startup(function(use)
 	-- Mind
 	use({
 		"PlanAborted/mind.nvim",
-		branch = "feat-close-view-on-file-open",
+		branch = "new-feats",
 		requires = { "nvim-lua/plenary.nvim" },
 	})
 
